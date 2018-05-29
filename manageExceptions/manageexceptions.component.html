@@ -1,0 +1,348 @@
+<div *ngIf="reconComponent.showManageException">
+    <div class="col-md-12 titleAndTagDiv">
+        <div class="titleDiv">
+            Manage Exceptions
+            <div class="titleTagDiv">
+                Lists reconciliation exceptions that need further investigation. You can also search this list
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 nopadding" *blockUI="'manageExceptionPage'">
+        <div class="successMsg" [hidden]='!manageExceptionReconSuccess'>
+            <div>
+                <img src="app/images/success.png" />
+                <span>Auto Activation Request for Spire Serial # {{spireSerialNumber}} has been reconciled successfully!</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="errorMsg" [hidden]='!manageExceptionReconFailed'>
+            <div>
+                <img src="app/images/error.png" />
+                <span>Error : The Reconcilation action failed for Spire Serial # {{spireSerialNumber}}. Please try again later
+                    or contact the administrator</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="successMsg" [hidden]='!nucSwapSuccess'>
+            <div>
+                <img src="app/images/success.png" />
+                <span>NUC Swap for Spire Serial # {{spireSerialNumber}} has been completed successfully!</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="errorMsg" [hidden]='!nucSwapFailed'>
+            <div>
+                <img src="app/images/error.png" />
+                <span>NUC Swap for Spire Serial # {{spireSerialNumber}} failed. Please try again later
+                    or contact the administrator</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="successMsg" [hidden]='!manageExceptionUnReconcileSuccess'>
+            <div>
+                <img src="app/images/success.png" />
+                <span>Auto Activation Request for Spire Serial # {{spireSerialNumber}} has been Un-Reconciled successfully!</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="errorMsg" [hidden]='!manageExceptionUnReconcileFailed'>
+            <div>
+                <img src="app/images/error.png" />
+                <span>Error : The Un-Reconcilation action failed for Spire Serial # {{spireSerialNumber}}. Please try again later
+                    or contact the administrator</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="successMsg" [hidden]='!aaRequestInvalidSuccess'>
+            <div>
+                <img src="app/images/success.png" />
+                <span>Auto Activation Request for Spire Serial # {{spireSerialNumber}} has been invalidated successfully!</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="errorMsg" [hidden]='!aaRequestInvalidFailed'>
+            <div>
+                <img src="app/images/error.png" />
+                <span>Error :Auto Activation Request invalidation failed for Spire Serial # {{spireSerialNumber}}. Please try again later
+                    or contact the administrator</span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="col-md-12 nopadding">
+            <div [hidden]="!toggleBasicAdv" class="col-md-12 searchDiv">
+                <jqxInput #searchInputMNE [width]="200" [height]="22" [placeHolder]="'Enter search criteria'" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                <jqxButton #searchButtonMNE class="searchcolorblue" [theme]='"customBlue"' [width]='90' [height]='25' (onClick)="addSearchFilter()">
+                    Search
+                </jqxButton>
+                <span *ngIf="searchTextEntered">
+                    <jqxButton #clearSearchMNE [theme]='"energyblue"' [width]='90' [height]='25' (onClick)="clearSearchInput()">
+                        Clear
+                    </jqxButton>
+                </span>
+                <span class="hyperlinkText" (click)="toggleSearch()">
+                    Advanced Search
+                </span>
+            </div>
+
+            <div class="titleTagDiv" style="width: 95%;padding-left: 75%">
+                <span>
+                    <img src="app/images/reconciledSmall.png" style="padding-right: 5%" />Reconciled
+                </span>
+                <span>
+                    <img src="app/images/unreconciledSmall.png" style="padding-right: 5%" />Un-Reconciled
+                </span>
+            </div>
+            <div [hidden]="toggleBasicAdv" class="col-md-12 advSearchDivManageException">
+                <form id="advancedSearchFormME">
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>Spire Serial#</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #spireNumInputMNE [width]="150" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Equipment Asset#</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #equipAssetInputMNE [width]="150" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>Date Range</label>
+                        </div>
+                        <div class="col-md-4">
+                            <span style="float:left">
+                                From
+                                <jqxDateTimeInput #fromDateInputMNE [theme]='"energyblue"' [value]='null' [width]="130" [height]="20" [formatString]="'MM-dd-yyyy'"
+                                    [allowKeyboardDelete]="'true'" [placeHolder]="'mm-dd-yyyy'"  (onChange)="showClearButtonMne($event.target.value)"></jqxDateTimeInput>
+                            </span>
+                            <span style="float:left">
+                                To
+                                <jqxDateTimeInput #toDateInputMNE [theme]='"energyblue"' [value]='null' [width]="130" [height]="20" [formatString]="'MM-dd-yyyy'"
+                                    [allowKeyboardDelete]="'true'" [placeHolder]="'mm-dd-yyyy'"  (onChange)="showClearButtonMne($event.target.value)"></jqxDateTimeInput>
+                            </span>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Spire Unit Type</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxDropDownList #spireUnitRefMNE [theme]='"energyblue"' [placeHolder]='"Select"' [width]="205" [height]="20" [source]="spireTypeDataSource"
+                                [displayMember]="'spireName'" [valueMember]="'spireValue'" [autoDropDownHeight]='true' (onSelect)="showClearButtonMneDropDown($event)">
+                            </jqxDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>Country</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxDropDownList #countryRefMNE [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [selectedIndex]='0'
+                                [source]="countryListDataSource" (onSelect)="onCountrySelect($event)" [autoDropDownHeight]='true'
+                                [displayMember]="'countryName'" [valueMember]="'countryValue'">
+                            </jqxDropDownList>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Equipment Locaion</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #equipLocInputMNE [width]="200" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>Bottling Partner</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxDropDownList #bottlingPartnerRefMNE [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="bottlingPartnerListDataSource"
+                                [displayMember]="'bottlingPartnerName'" [autoDropDownHeight]='false' [valueMember]="'bottlingPartnerValue'">
+                            </jqxDropDownList>
+                        </div>
+                        <div class="col-md-2">
+                            <label>NUC Serial#</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #nucSerialInputMNE [width]="100" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>COF#/Cust ID</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #cofInputMNE [width]="100" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Modem Serial#</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #modemSerialInputMNE [width]="100" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>Customer Name</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #customerNameInputMNE [width]="200" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Modem Carrier</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxDropDownList #modemCarrierRefMNE [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="modemCarrierListDataSource"
+                                [displayMember]="'key'" [autoDropDownHeight]='true' [valueMember]="'key'">
+                            </jqxDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>Street Address</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #streetAddInputMNE [width]="200" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Modem Make</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxDropDownList #modemMakeRefMNE [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="modemMakeListDataSource"
+                                [displayMember]="'key'" [autoDropDownHeight]='true' [valueMember]="'key'" (onSelect)="onModemMakeChange($event)">
+                            </jqxDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>City</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #cityInputMNE [width]="100" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Modem Model</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxDropDownList #modemModelRefMNE [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="modemModelListDataSource"
+                                [displayMember]="'key'" [valueMember]="'key'">
+                            </jqxDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>State</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxDropDownList #stateRefMNE [theme]='"energyblue"' [placeHolder]='"Select"' [width]="125" [height]="20" [source]="stateListDataSource"
+                                [displayMember]="'stateName'" [valueMember]="'stateValue'">
+                            </jqxDropDownList>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Modem Location</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #modemLocationInputMNE [width]="100" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <div class="col-md-2">
+                            <label>Zip/Postal Code</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #zipcodeInputMNE [width]="120" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Ident Item ID</label>
+                        </div>
+                        <div class="col-md-4">
+                            <jqxInput #identItemIdInputMNE [width]="150" [height]="22" (keypress)="showClearButtonMne($event.target.value)"></jqxInput>
+                        </div>
+                    </div>
+                    <div class="col-md-10" style="margin-top:5px;">
+                        <jqxButton #advSearchButtonMNE class="searchcolorblue" [theme]='"customBlue"' [width]='90' [height]='25' (onClick)="addAdvancedSearchFilter()">
+                            Search
+                        </jqxButton>
+                        <span *ngIf="searchTextEntered">
+                            <jqxButton #clearFormMNE [theme]='"energyblue"' [width]='90' [height]='25' (onClick)="clearAdvancedSearchForm()">
+                                Clear
+                            </jqxButton>
+                        </span>
+                        <span class="hyperlinkText" (click)="toggleSearch()">
+                            Basic Search
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12 gridTopStatusDiv" style="height: 60px">
+                <div class="col-md-2">
+                    <div style="text-align:center;">
+                        <jqxDropDownList #countryFilterRefMNE [theme]='"energyblue"' [placeHolder]='"Filter by country"' [width]='"100%"' [height]="20"
+                            [source]="countryFilterDataSource" [displayMember]="'countryName'" [autoDropDownHeight]='true' [valueMember]="'countryName'"
+                            (onSelect)="addCountryFilter($event);showClearButtonDropDown($event)">
+                        </jqxDropDownList>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align:center;">
+                        <jqxDropDownList #bottlingPartnersFilterRefMNE [theme]='"energyblue"' [placeHolder]='"Filter by Bottling Partner"' [width]='"100%"'
+                            [height]="20" [source]="bottlingPartnerFilterDataSource" [displayMember]="'bottlingPartnerName'"
+                            [valueMember]="'bottlingPartnerValue'" (onSelect)="addBottlingPartnerFilter($event);showClearButtonDropDown($event)" [autoDropDownHeight]='true'>
+                        </jqxDropDownList>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align:center;">
+                        <jqxDropDownList #regionRefMNE [theme]='"energyblue"' [placeHolder]='"Filter by Region"' [width]='"100%"' [height]="20" [source]="regionFilterDataSource"
+                            [displayMember]="'regionName'" [valueMember]="'regionValue'" (onSelect)="addRegionFilter($event)"
+                            [autoDropDownHeight]='true'>
+                        </jqxDropDownList>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align:center">
+                        <b>{{totalExceptions}}</b>
+                        <br /> All Exceptions
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align:center">
+                        <b>{{aaExceptions}}</b>
+                        <br /> Auto Activation Exceptions
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align:center">
+                        <b>{{installConfExceptions}}</b>
+                        <br /> Install Confirmation Exceptions
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div *ngIf="exceptionEquipmentDataSource" class="col-md-12" style="width:99%; margin-left:10px;">
+                <jqxGrid #manageExceptionsRef [width]='"99.2%"' [height]='"340px"' [theme]='"energyblue"' [source]='exceptionEquipmentDataSource'
+                    [columns]='exceptionEquipmentColumns' [sortable]='true' [pagesize]='10' [pagesizeoptions]='["10", "20", "50", "100"]'
+                    [pageable]='true' [altrows]='true' [autoheight]='false' [enablehover]='true' [editable]='false' [rendered]='rendered'
+                    [pagermode]='"advanced"' [rowdetails]="true" [initrowdetails]="initrowdetails" [enablebrowserselection]='true'
+                    [rowdetailstemplate]="rowdetailstemplate" [enabletooltips]='true' [showfiltercolumnbackground]='false'>
+                </jqxGrid>
+            </div>
+            <div class="col-md-12 gridBottomStatusDiv">
+                <jqxButton #exportButtonMNE [theme]='"energyblue"' [width]='90' [height]='25' (onClick)="exportExceptionEquipments('ExceptionEquipments.csv')"
+                    [textImageRelation]='"imageBeforeText"' [imgPosition]="'left'" [textPosition]="'center'" [imgSrc]='"app/images/export.png"'>
+                    Export List
+                </jqxButton>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="reconComponent.showInvestigate">
+    <manageExceptionInvestigate></manageExceptionInvestigate>
+</div>

@@ -1,0 +1,51 @@
+<div class="col-md-12 nopadding" >
+    
+<div *ngIf="suggestionsFound && mneInvestigateComponent.suggestionTabSelected" class="col-md-12" style="width:99%; margin-left:10px;">
+    <div *ngFor="let suggestions of suggestionsDataSrcList">
+        <div *ngIf="suggestions.dataAdapter">
+            <div *ngIf="suggestions.title" class="col-md-12 suggestionMsg">
+                <div style="text-align:left;">
+                    <span>
+                        <p style="font-size: 85%">{{suggestions.title}}
+                        </p>
+                    </span>
+                </div>
+            </div>
+            <br />
+            <div>
+                <jqxGrid #mnesuggestionsRef [width]='"97%"'   [theme]='"energyblue"' [source]='suggestions.dataAdapter' [columns]='suggestionColumns'
+                    [altrows]='true' [enablehover]='true' [editable]='false' [rendered]='rendered' [autoheight] ='true' [autorowheight] = 'true'
+                    [rowdetails]="true" [initrowdetails]="initrowdetails" [enablebrowserselection]='true' [rowdetailstemplate]="rowdetailstemplate"
+                    [enabletooltips]='true' [columnsresize]="true" [columngroups]="columngroups">
+                </jqxGrid>
+            </div>
+            <br/>
+            <br/>
+        </div>
+    </div>
+</div>
+<div *ngIf="warningsFound && mneInvestigateComponent.warningTabSelected" class="col-md-12" style="width:99%; margin-left:10px;">
+    <div *ngFor="let warnings of warningsDataSrcList">
+        <div *ngIf="warnings.dataAdapter">
+            <div  *ngIf="warnings.title"  class="col-md-12 suggestionMsg">
+                <div style="text-align:left;">
+                    <span>
+                        <p style="font-size: 85%">{{warnings.title}}
+                        </p>
+                    </span>
+                </div>
+            </div>
+            <br />
+            <div>
+                <jqxGrid #mnesuggestionsRef [width]='"97%"'  [theme]='"energyblue"' [source]='warnings.dataAdapter' [columns]='suggestionColumns' 
+                    [columnsresize]="true" [columngroups]="columngroups" [altrows]='true' [enablehover]='true' [editable]='false' [rendered]='rendered' [autorowheight]="true" [autoheight]="true"
+                    [rowdetails]="true" [initrowdetails]="initrowdetails" [enablebrowserselection]='true' [rowdetailstemplate]="rowdetailstemplate"
+                    [enabletooltips]='true'>
+                </jqxGrid>
+            </div>
+            <br/>
+            <br/>
+        </div>
+    </div>
+</div>
+</div>

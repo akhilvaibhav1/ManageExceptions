@@ -1,0 +1,198 @@
+<div class="row" style="height: 100%">
+    <div class="col-md-12 titleAndTagDiv" style="height: 100%">
+        <div class="titleDiv">
+            Review and Confirm Invalidation for Equipment Serial # {{aaRequest.spireSerialNumber}}
+        </div>
+        <br/>
+        <div *blockUI="'manageExceptionInvalidPage'">
+            <table class="table table-striped confirmScreen" border="1" style="white-space: nowrap; width: 50%;height: 100%">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">
+                            Data Field
+                        </th>
+                        <th style="width: 5%">
+                            Equipment Auto Activation Request
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border-top:2px solid #ddd">
+                            Spire Serial #
+                        </td>
+                        <td style="border-top:2px solid #ddd">
+                            {{aaRequest.spireSerialNumber}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Bottling Partner
+                        </td>
+                        <td>
+                            {{aaRequest.bottlingPartner}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            COF# / Cust ID
+                        </td>
+                        <td>
+                            {{aaRequest.customerId}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Customer Name
+                        </td>
+                        <td>
+                            {{aaRequest.customerName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Street Address
+                        </td>
+                        <td>
+                            {{aaRequest.streetAddress}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            City
+                        </td>
+                        <td>
+                            {{aaRequest.city}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            State
+                        </td>
+                        <td>
+                            {{aaRequest.state}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Zip/Postal Code
+                        </td>
+                        <td>
+                            {{aaRequest.postalCode}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Equipment Asset #
+                        </td>
+                        <td>
+                            {{aaRequest.assetNumber}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Spire Type
+                        </td>
+                        <td>
+                            {{aaRequest.spireType}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Equipment Location
+                        </td>
+                        <td>
+                            {{aaRequest.location}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            NUC Serial #
+                        </td>
+                        <td>
+                            {{aaRequest.nucSerialNumber}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Last SEN Data Upload
+                        </td>
+                        <td>
+                            {{aaRequest.lastSenDataUpload}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Last Heartbeat Time
+                        </td>
+                        <td>
+                            {{aaRequest.lastHeartBeatTime}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Time Zone
+                        </td>
+                        <td>
+                            {{aaRequest.timeZone}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Serial #
+                        </td>
+                        <td>
+                            {{aaRequest.modemSNo}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Carrier
+                        </td>
+                        <td>
+                            {{aaRequest.modemCarrier}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Make
+                        </td>
+                        <td>
+                            {{aaRequest.modemMake}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Model
+                        </td>
+                        <td>
+                            {{aaRequest.modemModel}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Location
+                        </td>
+                        <td>
+                            {{aaRequest.modemLocation}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-9 "></div>
+            <div class="col-md-3" style="margin-top:5px;">
+                <jqxButton #clearForm [theme]='"energyblue"' [width]='90' [height]='25' (onClick)="backToInvestigate()">
+                    Cancel
+                </jqxButton>
+                <jqxButton #invalidButton [theme]='"customBlue"' [width]='90' [height]='25' (onClick)="invalidateAARequest()">
+                    Invalid
+                </jqxButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>

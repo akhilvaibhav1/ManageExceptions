@@ -1,0 +1,600 @@
+<div *ngIf="!confirmExceptionPage && !aaInvalidConfirmationPage" style="height:auto;width: 99%">
+    <div class="col-md-12 titleAndTagDiv">
+        <div class="titleDiv">
+            Investigate {{ investigatedSpireEquipmentDetail.type }} for Equipment Serial # {{ investigatedSpireEquipmentDetail.spireSerialNumber
+            }}
+        </div>
+    </div>
+
+    <br>
+    <br/>
+    <div style="width: 70%;padding-left: 5%">
+        <div class="successMsg" [hidden]='!reconComponent.formUpdatedSuccess'>
+            <img src="app/images/success.png" />
+            <span> Changes to the form for Spire Serial # {{investigatedSpireEquipmentDetail.spireSerialNumber}} has been saved
+                successfully!
+            </span>
+        </div>
+        <div class="errorMsg" [hidden]='!reconComponent.formUpdatedFail'>
+            <img src="app/images/error.png" />
+            <span> Error : The Edit form action failed for Spire Serial # {{investigatedSpireEquipmentDetail.spireSerialNumber}}.
+                Please try again later or contact the administrator.</span>
+        </div>
+        <br/>
+        <br/>
+    </div>
+
+    <div class="titleTagDiv" style="width: 95%;padding-left: 75%">
+        <span>
+            <img src="app/images/reconciledSmall.png" style="padding-right: 5%" />Reconciled
+        </span>
+        <span>
+            <img src="app/images/unreconciledSmall.png" style="padding-right: 5%" />Un-Reconciled
+        </span>
+    </div>
+
+    <br/>
+    <br/>
+
+
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;padding-right: 50px; padding-left: 50px">
+            <table class="table" border="1" style="white-space: normal; width: 100%">
+                <thead>
+                    <tr>
+                        <th style="width: 5%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Type
+                        </th>
+                        <th style="width: 20%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Spire Serial #
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            {{getColumnHeader(investigatedSpireEquipmentDetail.type)}}
+                        </th>
+                        <th style="width: 5%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Country
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Bottling
+                            <br /> Partner
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            COF #
+                            <br /> Cust ID
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Cust Name
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Street Address
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            City
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            State
+                        </th>
+                        <th style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Status
+                        </th>
+                        <th *ngIf="displayActionColumn" style="width: 10%; background-color:#a4bed4; text-align:center; font-size: 12px">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!reconComponent.formUpdatedSuccess">
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.type}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.spireSerialNumber}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.date}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.country}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.bottlingPartner}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.customerId}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.customerName}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.streetAddress}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.city}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.state}}
+                        </td>
+                        <td style="font-size: 12px">
+                            <img src="{{getStatus(investigatedSpireEquipmentDetail)}}" />
+                        </td>
+                        <td *ngIf="displayActionColumn" style="font-size: 12px">
+                            <button (click)="navigate(investigatedSpireEquipmentDetail)">{{ getButtonName() }}</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="reconComponent.formUpdatedSuccess">
+                        <td style="font-size: 12px">
+                            {{investigatedSpireEquipmentDetail.type}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.eqpmtSrlNum}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.deploymentDt}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.country}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.btlrNm}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.btlrCustIdVal}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.custNm}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.custAddrTxt1}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.custCity}}
+                        </td>
+                        <td style="font-size: 12px">
+                            {{reconComponent.editData.custState}}
+                        </td>
+                        <td style="font-size: 12px">
+                            <img src="{{getStatus(investigatedSpireEquipmentDetail)}}" />
+                        </td>
+                        <td *ngIf="displayActionColumn" style="font-size: 12px">
+                            <button (click)="navigate(investigatedSpireEquipmentDetail)">{{ getButtonName() }}</button>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Zip/Postal Code</label>
+                                </div>
+                                <div *ngIf="!reconComponent.formUpdatedSuccess" class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.postalCode}}
+                                </div>
+                                <div *ngIf="reconComponent.formUpdatedSuccess" class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{reconComponent.editData.custPostCd}}
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Modem Make</label>
+                                </div>
+                                <div *ngIf="!reconComponent.formUpdatedSuccess" class="col-md-2" style="white-space: nowrap; font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.modemMake}}
+                                </div>
+                                <div *ngIf="reconComponent.formUpdatedSuccess" class="col-md-2" style="white-space: nowrap; font-size: 12px; text-align:left">
+                                    {{reconComponent.editData.modemMake}}
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Spire Unit Asset #</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.assetNumber}}
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Modem Model</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.modemModel}}
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Spire Unit Type</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.spireType}}
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Modem Location</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.modemLocation}}
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Spire Unit Location</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.location}}
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Last SEN Data Upload</label>
+                                </div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.lastSenDataUpload}}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>NUC Serial #</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.nucSerialNumber}}
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Last Heartbeat Time</label>
+                                </div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.lastHeartBeatTime}}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Modem Carrier</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.modemCarrier}}
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Time Zone</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.timeZone}}
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Modem Serial #</label>
+                                </div>
+                                <div class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.modemSNo}}
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div *ngIf="showIdentItemId" class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Ident Item ID</label>
+                                </div>
+                                <div *ngIf="showIdentItemId" class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.identItemId}}
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="investigate">
+                        <td colspan="12" style="border:0; padding:0">
+                            <div class="col-md-12">
+                                <div *ngIf="showRegion" class="col-md-3" style="font-size: 12px; text-align:left">
+                                    <label>Region</label>
+                                </div>
+                                <div *ngIf="showRegion" class="col-md-2" style="font-size: 12px; text-align:left">
+                                    {{investigatedSpireEquipmentDetail.region}}
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!confirmExceptionPage && !aaInvalidConfirmationPage" style="height:100%;width: 99%">
+    <div class="container-fluid nopadding">
+        <div class="col-md-12 nopadding">
+            <jqxTabs #mneInvestigateTab [width]='"100%"' [height]='"100%"' [position]='"top"' (onSelected)="getSelectedTab($event)" [animationType]='"none"'
+                [selectionTracker]='false' [keyboardNavigation]='false'>
+                <ul style='margin-left: 5%'>
+                    <li >
+                        <div>
+                            <div class="tab-label">
+                                Warnings
+                            </div>
+                        </div>
+                    </li>
+                    <li >
+                        <div>
+                            <div class="tab-label">
+                                Suggestions
+                            </div>
+                        </div>
+                    </li>
+                   <li >
+                        <div>
+                            <div class="tab-label">
+                                Search
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div style="overflow:unset; min-height:200px;width:100%" *blockUI="'manageExceptionSubTabPage'">
+                    <br />
+                    <manageExceptionsSuggestionsGrid></manageExceptionsSuggestionsGrid>
+                </div>
+                <div style="overflow-y: scroll;overflow-x:hidden; height:400px;width: 97%" *blockUI="'manageExceptionSubTabPage'">
+                    <br />
+                    <manageExceptionsSuggestionsGrid></manageExceptionsSuggestionsGrid>
+                </div>
+                <div class="advSearchDivUnrecon">
+                    <div *blockUI="'manageExceptionInvestigatePage'" class="col-md-12 nopadding">
+                        <form name="investigateForm">
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>Spire Serial#</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="spireNumInput" type="text" [(ngModel)]="searchRequest.spireSerialNum" name="spireNumInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Equipment Asset#</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="equipAssetInput" type="text" [(ngModel)]="searchRequest.assetId" name="equipAssetInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <!-- <div class="col-md-2">
+                                    <label>Date Range</label>
+                                </div>
+                                <div class="col-md-4">
+                                    From
+                                    <jqxDateTimeInput #fromDateInput name="fromDateInput1" [template]="'info'" [value]=null [width]="180" [height]="22" [formatString]="'MM-dd-yyyy'"
+                                        [allowNullDate]="'true'" [allowKeyboardDelete]="'true'" [(ngModel)]="searchRequest.fromDate"
+                                        [placeHolder]="'mm-dd-yyyy'" (onValueChanged)="checkDateEntered($event)"></jqxDateTimeInput>
+                                    <br> To
+                                    <jqxDateTimeInput #toDateInput name="fromDateInput1" [template]="'info'" [value]=null [width]="180" [height]="22" [formatString]="'MM-dd-yyyy'"
+                                        [allowNullDate]="'true'" [allowKeyboardDelete]="'true'" [(ngModel)]="searchRequest.toDate"
+                                        [placeHolder]="'mm-dd-yyyy'" (onValueChanged)="checkDateEntered($event)"></jqxDateTimeInput>
+                                </div> -->
+                                <div class="col-md-2" style="margin-top: 1.6%;">
+                                    <label>Date Range</label>
+                                </div>
+                                <div class="col-md-4" style="display:flex; flex-direction: row; align-items: center">
+                                    <div style="white-space: nowrap">
+                                        From
+                                        <jqxDateTimeInput #fromDateInput name="fromDateInput1" [template]="'info'" [value]=null [width]="100" [height]="22" [formatString]="'MM-dd-yyyy'"
+                                            [allowNullDate]="'true'" [allowKeyboardDelete]="'true'" [(ngModel)]="searchRequest.fromDate"
+                                            [placeHolder]="'mm-dd-yyyy'" (onValueChanged)="checkDateEntered($event)"></jqxDateTimeInput>
+                                    </div>
+                                    <div style="white-space: nowrap">
+                                        To
+                                        <jqxDateTimeInput #toDateInput name="fromDateInput1" [template]="'info'" [value]=null [width]="100" [height]="22" [formatString]="'MM-dd-yyyy'"
+                                            [allowNullDate]="'true'" [allowKeyboardDelete]="'true'" [(ngModel)]="searchRequest.toDate"
+                                            [placeHolder]="'mm-dd-yyyy'" (onValueChanged)="checkDateEntered($event)"></jqxDateTimeInput>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Spire Unit Type</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <jqxDropDownList #spireUnitRef [theme]='"energyblue"'  [placeHolder]='"Select"'   [width]="205"  [height]="20"  [source]="spireTypeDataSource"
+                                        [displayMember]="'spireName'"  [valueMember]="'spireValue'"   [autoDropDownHeight]='true'
+                                         [ngModelOptions]="{standalone: true}"  [(ngModel)]="searchRequest.spireUnitType" (onSelect)="dropDownSelect($event)">
+                                    </jqxDropDownList>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>Country</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <jqxDropDownList #countryRef [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [selectedIndex]='0'
+                                        [source]="countryListDataSource" [displayMember]="'countryName'" [valueMember]="'countryValue'"
+                                        [autoDropDownHeight]='true' [ngModelOptions]="{standalone: true}" [(ngModel)]="searchRequest.country"
+                                        (onSelect)="onCountrySelect($event); dropDownSelect($event)">
+                                    </jqxDropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Equipment Location</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="equipLocInput" type="text" [(ngModel)]="searchRequest.equipLocation" name="equipLocInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>Bottling Partner</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <jqxDropDownList #bottlingPartnerRef [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="bottlingPartnerListDataSource"
+                                        [displayMember]="'bottlingPartnerName'" [valueMember]="'bottlingPartnerValue'" [autoDropDownHeight]='true'
+                                        [(ngModel)]="searchRequest.bottler" [ngModelOptions]="{standalone: true}" (onSelect)="dropDownSelect($event)">
+                                    </jqxDropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>NUC Serial#</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="nucSerialInput" type="text" [(ngModel)]="searchRequest.nucSerial" name="nucSerialInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>COF#/Cust ID</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="cofInput" type="text" [(ngModel)]="searchRequest.customerId" name="customerIdInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Modem Serial#</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="modemSerialInput" type="text" [(ngModel)]="searchRequest.modemSerialNum" name="modemSerialInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>Customer Name</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="customerNameInput" type="text" [(ngModel)]="searchRequest.customerName" name="customerNameInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Modem Carrier</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <jqxDropDownList #modemCarrierRef [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="modemCarrierListDataSource"
+                                        [displayMember]="'key'" [autoDropDownHeight]='true' [valueMember]="'key'" [(ngModel)]="searchRequest.modemCarrier"
+                                        [ngModelOptions]="{standalone: true}" (onSelect)="dropDownSelect($event)">
+                                    </jqxDropDownList>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>Street Address</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="streetAddInput" type="text" [(ngModel)]="searchRequest.streetAddress" name="streetAddInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Modem Make</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <jqxDropDownList #modemMakeRef [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="modemMakeListDataSource"
+                                        [displayMember]="'key'" [valueMember]="'key'" [autoDropDownHeight]='true' (onSelect)="onModemMakeChange($event)"
+                                        [(ngModel)]="searchRequest.modemMake" [ngModelOptions]="{standalone: true}" (onSelect)="dropDownSelect($event)">
+                                    </jqxDropDownList>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>City</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="cityInput" type="text" [(ngModel)]="searchRequest.city" name="cityInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Modem Model</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <jqxDropDownList #modemModelRef [theme]='"energyblue"' [placeHolder]='"Select"' [width]="175" [height]="20" [source]="modemModelListDataSource"
+                                        [displayMember]="'key'" [valueMember]="'key'" [(ngModel)]="searchRequest.modemModel"
+                                        [ngModelOptions]="{standalone: true}" (onSelect)="dropDownSelect($event)">
+                                    </jqxDropDownList>
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>State</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <jqxDropDownList #stateRef [theme]='"energyblue"' [placeHolder]='"Select"' [width]="125" [height]="20" [source]="stateListDataSource"
+                                        [displayMember]="'stateValue'" [valueMember]="'stateValue'" [(ngModel)]="searchRequest.state"
+                                        [ngModelOptions]="{standalone: true}" (onSelect)="dropDownSelect($event)">
+                                    </jqxDropDownList>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Modem Location</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="modemLocationInput" type="text" [(ngModel)]="searchRequest.modemLocation" name="modemLocationInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>Zip/Postal Code</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="zipcodeInput" type="text" [(ngModel)]="searchRequest.zipcode" name="zipcodeInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Ident Item ID</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="identItemIdInput" type="text" [(ngModel)]="searchRequest.identItemId" name="identItemIdInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                            </div>
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <div class="col-md-2">
+                                    <label>Region</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="regionInput" type="text" [(ngModel)]="searchRequest.region" name="regionInput" (keyup)="showClearButton($event.target.value)">
+                                </div>
+                            </div>
+
+                            <div class="col-md-10" style="margin-top:5px;">
+                                <jqxButton class="searchcolorblue" #suggestionSearchButton [theme]='"customBlue"' [width]='90' [height]='25' (onClick)="manageExceptionSearch()">
+                                    Search
+                                </jqxButton>
+                                <span *ngIf="searchTextEntered">
+                                    <jqxButton #clearForm [theme]='"energyblue"' [width]='90' [height]='25' (onClick)="clearSearch()">
+                                        Clear
+                                    </jqxButton>
+                                </span>
+                            </div>
+
+                            <br>
+                            <div #scroll>
+                                <div *ngIf="mneSearchResultsFound" class="col-md-12" style="width:99%; margin-left:10px;">
+                                    <jqxGrid #mnesearchGridRef [width]='"100%"' [theme]='"energyblue"' [source]='mneSearchResults' [columns]='mneSearchColumns'
+                                        [altrows]='true' [enablehover]='true' [editable]='false' [rendered]='rendered' [autorowheight]="true"
+                                        [autoheight]="true" [rowdetails]="true" [initrowdetails]="initrowdetails" [enablebrowserselection]='true'
+                                        [rowdetailstemplate]="rowdetailstemplate" [enabletooltips]='true'>
+                                    </jqxGrid>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </jqxTabs>
+        </div>
+    </div>
+    <div>
+        <jqxButton #backBtn [theme]='"customBlue"' [width]='280' [height]='25' (onClick)="backToManageExceptions()" [textImageRelation]='"imageBeforeText"'
+            [imgPosition]='"left"' [imgSrc]='"app/images/arrow-left.png"'>
+            Return To Manage Exceptions
+        </jqxButton>
+    </div>
+</div>
+
+<div *ngIf="confirmExceptionPage" style="height:auto;width: 99%">
+    <manageExceptionConfirmationGrid></manageExceptionConfirmationGrid>
+</div>
+
+<div *ngIf="aaInvalidConfirmationPage" style="height:auto;width: 99%">
+    <aaInvalidateConfirm></aaInvalidateConfirm>
+</div>

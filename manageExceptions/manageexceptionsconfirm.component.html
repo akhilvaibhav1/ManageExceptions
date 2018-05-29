@@ -1,0 +1,709 @@
+<div class="row" style="height: 100%">
+    <div class="col-md-12 titleAndTagDiv" style="height: 100%">
+        <div class="titleDiv">
+            Review and Confirm {{title}} for Equipment Serial # {{investigatedSpireEquipment.spireSerialNumber}}
+            <div *ngIf="investigateComponent.nucSwapClicked" class="titleTagDiv">
+                Validate and confirm the NUC Swap details. Verify the highlighted fields.
+            </div>
+            <div *ngIf="investigateComponent.unReconcileClicked" class="titleTagDiv">
+                Validate and confirm the Un-Reconciliation details. Verify the highlighted fields.
+            </div>
+            <div *ngIf="investigateComponent.reconcileClicked" class="titleTagDiv">
+                Validate and confirm the Reconciliation details. Verify the highlighted fields.
+            </div>
+            <div class="warningMsg" *ngIf="showWarningMsg">
+                <img src="app/images/error.png" />
+                <span>Warning : There is a NUC Swap option for this Equipment, please return to investigate page and select NUC
+                    Swap </span>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <br/>
+        <div>
+            <table class="table confirmScreen" border="1" style="width: 75%">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;text-align: center">
+                            Data Field
+                        </th>
+                        <th class="confirmPageHeader">
+                            Equipment Auto Activation Request
+                        </th>
+                        <th class="confirmPageHeader">
+                            Reconcile to Install Confirmation
+                        </th>
+                        <th *ngIf="investigateComponent.nucSwapClicked" class="confirmPageHeader">
+                            Archive
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border-top:2px solid #ddd">
+                            Spire Serial #
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForSpireSerial(investigateComponent.nucSwapClicked, suggestedSpireEquipment.spireSerialNumber, archiveRecord.spireSerialNumber)">
+                            {{suggestedSpireEquipment.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForSpireSerial(investigateComponent.nucSwapClicked, suggestedSpireEquipment.spireSerialNumber, archiveRecord.spireSerialNumber)">
+                            {{investigatedSpireEquipment.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchiveForSpireSerial(investigateComponent.nucSwapClicked, suggestedSpireEquipment.spireSerialNumber, archiveRecord.spireSerialNumber)">
+                            {{archiveRecord.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="border-top:2px solid #ddd;text-align: center">
+                            {{suggestedSpireEquipment.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="border-top:2px solid #ddd;text-align: center">
+                            {{investigatedSpireEquipment.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(true, suggestedSpireEquipment.spireSerialNumber, investigatedSpireEquipment.spireSerialNumber)">
+                            {{suggestedSpireEquipment.spireSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(true, suggestedSpireEquipment.spireSerialNumber, investigatedSpireEquipment.spireSerialNumber)">
+                            {{investigatedSpireEquipment.spireSerialNumber}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Bottling Partner
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.bottlingPartner}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.bottlingPartner}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.bottlingPartner, investigatedSpireEquipment.bottlingPartner)">
+                            {{suggestedSpireEquipment.bottlingPartner}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.bottlingPartner, investigatedSpireEquipment.bottlingPartner)">
+                            {{investigatedSpireEquipment.bottlingPartner}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.bottlingPartner, archiveRecord.bottlingPartner)">
+                            {{archiveRecord.bottlingPartner}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.bottlingPartner}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.bottlingPartner}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.bottlingPartner, investigatedSpireEquipment.bottlingPartner)">
+                            {{suggestedSpireEquipment.bottlingPartner}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.bottlingPartner, investigatedSpireEquipment.bottlingPartner)">
+                            {{investigatedSpireEquipment.bottlingPartner}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            COF# / Cust ID
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.customerId}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.customerId}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.customerId, investigatedSpireEquipment.customerId)">
+                            {{suggestedSpireEquipment.customerId}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.customerId, investigatedSpireEquipment.customerId)">
+                            {{investigatedSpireEquipment.customerId}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.customerId, archiveRecord.customerId)">
+                            {{archiveRecord.customerId}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.customerId}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.customerId}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.customerId, investigatedSpireEquipment.customerId)">
+                            {{suggestedSpireEquipment.customerId}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.customerId, investigatedSpireEquipment.customerId)">
+                            {{investigatedSpireEquipment.customerId}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Customer Name
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.customerName}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.customerName}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.customerName, investigatedSpireEquipment.customerName)">
+                            {{suggestedSpireEquipment.customerName}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.customerName, investigatedSpireEquipment.customerName)">
+                            {{investigatedSpireEquipment.customerName}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.customerName, archiveRecord.customerName)">
+                            {{archiveRecord.customerName}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.customerName}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.customerName}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.customerName, investigatedSpireEquipment.customerName)">
+                            {{suggestedSpireEquipment.customerName}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.customerName, investigatedSpireEquipment.customerName)">
+                            {{investigatedSpireEquipment.customerName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Street Address
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.streetAddress}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.streetAddress}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.streetAddress, investigatedSpireEquipment.streetAddress)">
+                            {{suggestedSpireEquipment.streetAddress}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.streetAddress, investigatedSpireEquipment.streetAddress)">
+                            {{investigatedSpireEquipment.streetAddress}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.streetAddress, archiveRecord.streetAddress)">
+                            {{archiveRecord.streetAddress}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.streetAddress}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.streetAddress}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.streetAddress, investigatedSpireEquipment.streetAddress)">
+                            {{suggestedSpireEquipment.streetAddress}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.streetAddress, investigatedSpireEquipment.streetAddress)">
+                            {{investigatedSpireEquipment.streetAddress}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            City
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.city}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.city}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.city, investigatedSpireEquipment.city)">
+                            {{suggestedSpireEquipment.city}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.city, investigatedSpireEquipment.city)">
+                            {{investigatedSpireEquipment.city}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.city, archiveRecord.city)">
+                            {{archiveRecord.city}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.city}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.city}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.city, investigatedSpireEquipment.city)">
+                            {{suggestedSpireEquipment.city}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.city, investigatedSpireEquipment.city)">
+                            {{investigatedSpireEquipment.city}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            State
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.state}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.state}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.state, investigatedSpireEquipment.state)">
+                            {{suggestedSpireEquipment.state}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.state, investigatedSpireEquipment.state)">
+                            {{investigatedSpireEquipment.state}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.state, archiveRecord.state)">
+                            {{archiveRecord.state}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.state}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.state}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.state, investigatedSpireEquipment.state)">
+                            {{suggestedSpireEquipment.state}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.state, investigatedSpireEquipment.state)">
+                            {{investigatedSpireEquipment.state}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Zip/Postal Code
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.postalCode}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.postalCode}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.postalCode, investigatedSpireEquipment.postalCode)">
+                            {{suggestedSpireEquipment.postalCode}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.postalCode, investigatedSpireEquipment.postalCode)">
+                            {{investigatedSpireEquipment.postalCode}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.postalCode, archiveRecord.postalCode)">
+                            {{archiveRecord.postalCode}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.postalCode}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.postalCode}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.postalCode, investigatedSpireEquipment.postalCode)">
+                            {{suggestedSpireEquipment.postalCode}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.postalCode, investigatedSpireEquipment.postalCode)">
+                            {{investigatedSpireEquipment.postalCode}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Equipment Asset #
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.assetNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.assetNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.assetNumber, investigatedSpireEquipment.assetNumber)">
+                            {{suggestedSpireEquipment.assetNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.assetNumber, investigatedSpireEquipment.assetNumber)">
+                            {{investigatedSpireEquipment.assetNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.assetNumber, archiveRecord.assetNumber)">
+                            {{archiveRecord.assetNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.assetNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.assetNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.assetNumber, investigatedSpireEquipment.assetNumber)">
+                            {{suggestedSpireEquipment.assetNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.assetNumber, investigatedSpireEquipment.assetNumber)">
+                            {{investigatedSpireEquipment.assetNumber}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Spire Type
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.spireType}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.spireType}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.spireType, investigatedSpireEquipment.spireType)">
+                            {{suggestedSpireEquipment.spireType}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.spireType, investigatedSpireEquipment.spireType)">
+                            {{investigatedSpireEquipment.spireType}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.spireType, archiveRecord.spireType)">
+                            {{archiveRecord.spireType}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.spireType}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.spireType}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.spireType, investigatedSpireEquipment.spireType)">
+                            {{suggestedSpireEquipment.spireType}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.spireType, investigatedSpireEquipment.spireType)">
+                            {{investigatedSpireEquipment.spireType}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Equipment Location
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.location}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.location}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.location, investigatedSpireEquipment.location)">
+                            {{suggestedSpireEquipment.location}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.location, investigatedSpireEquipment.location)">
+                            {{investigatedSpireEquipment.location}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.location, archiveRecord.location)">
+                            {{archiveRecord.location}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.location}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.location}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.location, investigatedSpireEquipment.location)">
+                            {{suggestedSpireEquipment.location}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.location, investigatedSpireEquipment.location)">
+                            {{investigatedSpireEquipment.location}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            NUC Serial #
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.nucSerialNumber, investigatedSpireEquipment.nucSerialNumber)">
+                            {{suggestedSpireEquipment.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.nucSerialNumber, investigatedSpireEquipment.nucSerialNumber)">
+                            {{investigatedSpireEquipment.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.nucSerialNumber, archiveRecord.nucSerialNumber)">
+                            {{archiveRecord.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.nucSerialNumber, investigatedSpireEquipment.nucSerialNumber)">
+                            {{suggestedSpireEquipment.nucSerialNumber}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.nucSerialNumber, investigatedSpireEquipment.nucSerialNumber)">
+                            {{investigatedSpireEquipment.nucSerialNumber}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Last SEN Data Upload
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.lastSenDataUpload, investigatedSpireEquipment.lastSenDataUpload)">
+                            {{suggestedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.lastSenDataUpload, investigatedSpireEquipment.lastSenDataUpload)">
+                            {{investigatedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.lastSenDataUpload, archiveRecord.lastSenDataUpload)">
+                            {{archiveRecord.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.lastSenDataUpload, investigatedSpireEquipment.lastSenDataUpload)">
+                            {{suggestedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.lastSenDataUpload, investigatedSpireEquipment.lastSenDataUpload)">
+                            {{investigatedSpireEquipment.lastSenDataUpload}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Last Heartbeat Time
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.lastHeartBeatTime, investigatedSpireEquipment.lastHeartBeatTime)">
+                            {{suggestedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.lastHeartBeatTime, investigatedSpireEquipment.lastHeartBeatTime)">
+                            {{investigatedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.lastHeartBeatTime, archiveRecord.lastHeartBeatTime)">
+                            {{archiveRecord.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.lastHeartBeatTime, investigatedSpireEquipment.lastHeartBeatTime)">
+                            {{suggestedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.lastHeartBeatTime, investigatedSpireEquipment.lastHeartBeatTime)">
+                            {{investigatedSpireEquipment.lastHeartBeatTime}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Time Zone
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.timeZone}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.timeZone}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.timeZone, investigatedSpireEquipment.timeZone)">
+                            {{suggestedSpireEquipment.timeZone}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.timeZone, investigatedSpireEquipment.timeZone)">
+                            {{investigatedSpireEquipment.timeZone}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.timeZone, archiveRecord.timeZone)">
+                            {{archiveRecord.timeZone}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.timeZone}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.timeZone}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.timeZone, investigatedSpireEquipment.timeZone)">
+                            {{suggestedSpireEquipment.timeZone}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.timeZone, investigatedSpireEquipment.timeZone)">
+                            {{investigatedSpireEquipment.timeZone}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Serial #
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemSNo}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemSNo}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemSNo, investigatedSpireEquipment.modemSNo)">
+                            {{suggestedSpireEquipment.modemSNo}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemSNo, investigatedSpireEquipment.modemSNo)">
+                            {{investigatedSpireEquipment.modemSNo}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemSNo, archiveRecord.modemSNo)">
+                            {{archiveRecord.modemSNo}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemSNo}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemSNo}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemSNo, investigatedSpireEquipment.modemSNo)">
+                            {{suggestedSpireEquipment.modemSNo}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemSNo, investigatedSpireEquipment.modemSNo)">
+                            {{investigatedSpireEquipment.modemSNo}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Carrier
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemCarrier}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemCarrier}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemCarrier, investigatedSpireEquipment.modemCarrier)">
+                            {{suggestedSpireEquipment.modemCarrier}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemCarrier, investigatedSpireEquipment.modemCarrier)">
+                            {{investigatedSpireEquipment.modemCarrier}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemCarrier, archiveRecord.modemCarrier)">
+                            {{archiveRecord.modemCarrier}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemCarrier}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemCarrier}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemCarrier, investigatedSpireEquipment.modemCarrier)">
+                            {{suggestedSpireEquipment.modemCarrier}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemCarrier, investigatedSpireEquipment.modemCarrier)">
+                            {{investigatedSpireEquipment.modemCarrier}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Make
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemMake}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemMake}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemMake, investigatedSpireEquipment.modemMake)">
+                            {{suggestedSpireEquipment.modemMake}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemMake, investigatedSpireEquipment.modemMake)">
+                            {{investigatedSpireEquipment.modemMake}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemMake, archiveRecord.modemMake)">
+                            {{archiveRecord.modemMake}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemMake}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemMake}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemMake, investigatedSpireEquipment.modemMake)">
+                            {{suggestedSpireEquipment.modemMake}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemMake, investigatedSpireEquipment.modemMake)">
+                            {{investigatedSpireEquipment.modemMake}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Model
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemModel}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemModel}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemModel, investigatedSpireEquipment.modemModel)">
+                            {{suggestedSpireEquipment.modemModel}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemModel, investigatedSpireEquipment.modemModel)">
+                            {{investigatedSpireEquipment.modemModel}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemModel, archiveRecord.modemModel)">
+                            {{archiveRecord.modemModel}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemModel}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemModel}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemModel, investigatedSpireEquipment.modemModel)">
+                            {{suggestedSpireEquipment.modemModel}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemModel, investigatedSpireEquipment.modemModel)">
+                            {{investigatedSpireEquipment.modemModel}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Modem Location
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemLocation}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemLocation}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemLocation, investigatedSpireEquipment.modemLocation)">
+                            {{suggestedSpireEquipment.modemLocation}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyle(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemLocation, investigatedSpireEquipment.modemLocation)">
+                            {{investigatedSpireEquipment.modemLocation}}
+                        </td>
+                        <td *ngIf="investigateComponent.nucSwapClicked" [ngStyle]="getDisplayStyleArchive(investigateComponent.nucSwapClicked, suggestedSpireEquipment.modemLocation, archiveRecord.modemLocation)">
+                            {{archiveRecord.modemLocation}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type === 'AA Request'" style="text-align: center">
+                            {{suggestedSpireEquipment.modemLocation}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && suggestedSpireEquipment.type !== 'AA Request'" style="text-align: center">
+                            {{investigatedSpireEquipment.modemLocation}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked)&& investigatedSpireEquipment.type === 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemLocation, investigatedSpireEquipment.modemLocation)">
+                            {{suggestedSpireEquipment.modemLocation}}
+                        </td>
+                        <td *ngIf="(investigateComponent.reconcileClicked || investigateComponent.unReconcileClicked) && investigatedSpireEquipment.type !== 'AA Request'" [ngStyle]="getDisplayStyleForUnreconciled(false, suggestedSpireEquipment.modemLocation, investigatedSpireEquipment.modemLocation)">
+                            {{investigatedSpireEquipment.modemLocation}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr class="lineStyle">
+        <div class="row">
+            <div class="col-md-9 "></div>
+            <div class="col-md-3" style="margin-top:5px;">
+                <jqxButton #clearForm [theme]='"energyblue"' [width]='90' [height]='25' (onClick)="backToInvestigate()">
+                    Cancel
+                </jqxButton>
+                <jqxButton *ngIf="investigateComponent.nucSwapClicked" #nucSwapButton [theme]='"customBlue"' [width]='100' [height]='25'
+                    (onClick)="reconcileOrNucSwapManageExceptions()">
+                    NUC Swap
+                </jqxButton>
+                <jqxButton class="searchcolorblue" *ngIf="investigateComponent.unReconcileClicked" #unReconcileButton [theme]='"customBlue"'
+                    [width]='110' [height]='25' (onClick)="reconcileManageExceptions()">
+                    Un-Reconcile
+                </jqxButton>
+                <jqxButton class="searchcolorblue" *ngIf="investigateComponent.reconcileClicked" #reconcileButton [theme]='"customBlue"'
+                    [width]='90' [height]='25' (onClick)="reconcileOrNucSwapManageExceptions()">
+                    Reconcile
+                </jqxButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
